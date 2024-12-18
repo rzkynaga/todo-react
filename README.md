@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# ToDo List React Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple and interactive ToDo List application built using React, featuring dark and light mode toggle, smooth animations, and persistent state with localStorage.
 
-## Available Scripts
+## Fitur Utama
 
-In the project directory, you can run:
+- **Mode Gelap & Terang**: Pengguna dapat beralih antara mode gelap dan terang untuk kenyamanan visual.
+- **Animasi Halus**: Setiap kali tugas ditambahkan atau dihapus, daftar tugas mengalami animasi transisi yang lembut.
+- **Penyimpanan Lokal**: Tugas yang ditambahkan disimpan secara permanen di `localStorage`, memastikan data tidak hilang saat aplikasi dimuat ulang.
+- **Responsif**: Aplikasi dirancang agar dapat digunakan di berbagai perangkat dengan tampilan yang responsif.
 
-### `npm start`
+## Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+[Masukkan link demo jika ada, misalnya menggunakan GitHub Pages atau Vercel]
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Teknologi yang Digunakan
 
-### `npm test`
+- **React**: Library untuk membangun antarmuka pengguna.
+- **React Transition Group**: Digunakan untuk menambahkan animasi pada elemen yang ditambahkan atau dihapus.
+- **Tailwind CSS**: Framework CSS yang digunakan untuk styling dengan utility-first approach.
+- **localStorage**: Menyimpan data ToDo pengguna secara lokal pada browser.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Cara Menjalankan Proyek
 
-### `npm run build`
+### Prasyarat
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Pastikan kamu sudah menginstal [Node.js](https://nodejs.org/) di sistem kamu.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Langkah-Langkah
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Clone repository ini**:
+```bash
+git clone https://github.com/rzkynaga/todo-react.git
+```
 
-### `npm run eject`
+2. **Masuk ke direktori proyek**:
+  ```bash
+  cd todo-react
+  ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **Instal dependensi**:
+  ```bash
+  npm install
+  ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. **Jalankan aplikasi**:
+  ```bash
+  npm start
+  ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Akses aplikasi di browser melalui http://localhost:3000.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Fitur yang Akan Datang
+- Tugas Terorganisir: Memungkinkan pengguna untuk mengelompokkan tugas dalam kategori atau tag.
+- Pengingat: Fitur pengingat untuk setiap tugas berdasarkan waktu.
+- Autentikasi Pengguna: Menyediakan login dan registrasi untuk pengalaman pengguna yang lebih personal.
 
-## Learn More
+## Kontribusi
+Jika kamu ingin berkontribusi pada proyek ini, berikut adalah langkah-langkah yang perlu diikuti:
+- Fork repository ini.
+- Buat branch baru (git checkout -b feature/nama-fitur).
+- Lakukan perubahan pada fitur atau perbaikan bug.
+- Commit perubahan (git commit -m 'Menambahkan fitur baru').
+- Push perubahan ke branch (git push origin feature/nama-fitur).
+- Kirim pull request untuk mendiskusikan perubahan.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-ikjoen
