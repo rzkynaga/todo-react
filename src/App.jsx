@@ -1,8 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { DotsVerticalIcon } from "@heroicons/react/outline";
+import { SunIcon, MoonIcon } from "@heroicons/react/outline"; 
+
 
 const App = () => {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState(() => {
+        const savedTasks = localStorage.getItem("tasks");
+        return savedTasks ? JSON.parse(savedTasks) : [];
+    });
     const [input, setInput] = useState("");
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const savedMode = localStorage.getItem("isDarkMode");
+        return savedMode === "true";
+    });
+
+    // Save tasks and mode to localStorage
+    useEffect(() => {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }, [tasks]);
+
+    useEffect(() => {
+        localStorage.setItem("isDarkMode", isDarkMode);
+    }, [isDarkMode]);
 
     const addTask = () => {
         if (input.trim()) {
@@ -11,7 +30,11 @@ const App = () => {
         }
     };
 
-    const toggleTask = (index) => {
+    const removeTask = (index) => {
+        setTasks(tasks.filter((_, i) => i !== index));
+    };
+
+    const toggleCompletion = (index) => {
         setTasks(
             tasks.map((task, i) =>
                 i === index ? { ...task, completed: !task.completed } : task
@@ -19,24 +42,51 @@ const App = () => {
         );
     };
 
-    const editTask = (index) => {
-        const newTask = prompt("Edit task:", tasks[index]);
-        if (newTask !== null && newTask.trim()) {
-            setTasks(tasks.map((task, i) => (i === index ? newTask : task)));
-        }
+    // Handle Drag Start
+    const handleDragStart = (index, event) => {
+        event.dataTransfer.setData("taskIndex", index);
     };
 
-    const removeTask = (index) => {
-        setTasks(tasks.filter((_, i) => i !== index));
+    // Handle Drop
+    const handleDrop = (index, event) => {
+        const draggedIndex = event.dataTransfer.getData("taskIndex");
+        if (draggedIndex !== index) {
+            const updatedTasks = [...tasks];
+            const [movedTask] = updatedTasks.splice(draggedIndex, 1);
+            updatedTasks.splice(index, 0, movedTask);
+            setTasks(updatedTasks);
+        }
     };
 
     return (
         <div
-            className="min-h-screen bg-gradient-to-br from-teal-900 via-blue-800 to-purple-900 
-      flex items-center justify-center p-5 text-white transition-all duration-500"
+            className={`min-h-screen flex items-center justify-center p-5 transition-all duration-500 ${isDarkMode
+                    ? "bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-200"
+                    : "bg-gradient-to-br from-teal-900 via-blue-800 to-purple-900 text-white"
+                }`}
         >
-            <div className="w-full max-w-lg bg-white rounded-xl shadow-xl p-6 text-gray-900">
-                <h1 className="text-3xl font-extrabold text-center text-blue-800 mb-5">
+            <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`absolute top-5 right-5 p-3 rounded-full shadow-lg transition-all duration-500 ${isDarkMode
+                        ? "bg-gray-800 text-white hover:bg-gray-700"
+                        : "bg-white text-gray-900 hover:bg-gray-200"
+                    }`}
+            >
+                {isDarkMode ? (
+                    <SunIcon className="w-6 h-6" /> // Ikon matahari untuk mode terang
+                ) : (
+                    <MoonIcon className="w-6 h-6" /> // Ikon bulan untuk mode gelap
+                )}
+            </button>
+
+            <div
+                className={`w-full max-w-lg rounded-xl shadow-xl p-6 transition-all duration-500 ${isDarkMode ? "bg-gray-900 text-gray-200" : "bg-white text-gray-900"
+                    }`}
+            >
+                <h1
+                    className={`text-3xl font-extrabold text-center mb-5 ${isDarkMode ? "text-blue-400" : "text-blue-800"
+                        }`}
+                >
                     ToDo List
                 </h1>
 
@@ -46,12 +96,17 @@ const App = () => {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Add a new task..."
-                        className="flex-grow p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none 
-            focus:ring-2 focus:ring-blue-400"
+                        className={`flex-grow p-3 rounded-lg border shadow-sm focus:outline-none transition-all duration-500 ${isDarkMode
+                                ? "bg-gray-700 border-gray-600 text-gray-200 placeholder-gray-400 focus:ring-gray-500"
+                                : "bg-gray-100 border-gray-300 text-gray-900 focus:ring-blue-400"
+                            }`}
                     />
                     <button
                         onClick={addTask}
-                        className="p-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition"
+                        className={`p-3 rounded-lg shadow-lg transition-all duration-500 ${isDarkMode
+                                ? "bg-blue-700 text-white hover:bg-blue-600"
+                                : "bg-blue-600 text-white hover:bg-blue-700"
+                            }`}
                     >
                         Add
                     </button>
@@ -61,38 +116,42 @@ const App = () => {
                     {tasks.map((task, index) => (
                         <li
                             key={index}
-                            className={`flex justify-between items-center p-3 rounded-lg shadow-sm ${task.completed ? "bg-green-100 line-through" : "bg-gray-100"
+                            className={`flex justify-between items-center p-3 rounded-lg shadow-sm transition-all duration-500 ${isDarkMode
+                                    ? "bg-gray-700 text-gray-200"
+                                    : "bg-gray-100 text-gray-800"
+                                } ${task.completed
+                                    ? "line-through opacity-50"
+                                    : "hover:bg-opacity-80"
                                 }`}
+                            draggable
+                            onDragStart={(e) => handleDragStart(index, e)}
+                            onDrop={(e) => handleDrop(index, e)}
+                            onDragOver={(e) => e.preventDefault()} // Allow drop
                         >
-                            <span className="text-gray-800">{task.text}</span>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => toggleTask(index)}
-                                    className={`text-sm ${task.completed ? "text-gray-500" : "text-green-500"
-                                        }`}
-                                >
-                                    {task.completed ? "Undo" : "Complete"}
-                                </button>
-                                <button
-                                    onClick={() => editTask(index)}
-                                    className="text-green-500 hover:text-green-700 transition"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => removeTask(index)}
-                                    className="text-red-500 hover:text-red-700 transition"
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        </li>
+                            {/* Ikon Drag */}
+                            <DotsVerticalIcon className="w-4 h-5 text-gray-500 mr-4 cursor-move" />
 
+                            <span
+                                onClick={() => toggleCompletion(index)}
+                                className="cursor-pointer flex-grow"
+                            >
+                                {task.text}
+                            </span>
+                            <button
+                                onClick={() => removeTask(index)}
+                                className={`transition-all duration-500 ${isDarkMode
+                                        ? "text-red-400 hover:text-red-500"
+                                        : "text-red-500 hover:text-red-700"
+                                    }`}
+                            >
+                                Remove
+                            </button>
+                        </li>
                     ))}
                 </ul>
 
                 {tasks.length === 0 && (
-                    <p className="text-center text-gray-500 mt-5">
+                    <p className="text-center mt-5 transition-all duration-500">
                         No tasks yet. Add some!
                     </p>
                 )}
