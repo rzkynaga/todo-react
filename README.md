@@ -11,7 +11,7 @@ A simple and interactive ToDo List application built using React, featuring dark
 
 ## Demo
 
-[Masukkan link demo jika ada, misalnya menggunakan GitHub Pages atau Vercel]
+[[Vercel!](https://todo-react-rho.vercel.app/)]
 
 ## Teknologi yang Digunakan
 
