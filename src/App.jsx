@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
 import { SunIcon, MoonIcon } from "@heroicons/react/outline";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
-
 
 const Task = ({
   task,
